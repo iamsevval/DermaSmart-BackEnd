@@ -17,6 +17,60 @@ namespace DermaSmart.API.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
+            modelBuilder.Entity("DermaSmart.API.Models.AppSkinProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AgeRange")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Concerns")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SkinType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("AppSkinProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("DermaSmart.API.Models.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppUsers", (string)null);
+                });
+
             modelBuilder.Entity("DermaSmart.API.Models.Ingredient", b =>
                 {
                     b.Property<int>("Id")
@@ -37,7 +91,7 @@ namespace DermaSmart.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("ingredients", (string)null);
                 });
 
             modelBuilder.Entity("DermaSmart.API.Models.Product", b =>
@@ -64,7 +118,7 @@ namespace DermaSmart.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("DermaSmart.API.Models.RoutineStep", b =>
@@ -87,7 +141,7 @@ namespace DermaSmart.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("RoutineSteps");
+                    b.ToTable("RoutineSteps", (string)null);
                 });
 
             modelBuilder.Entity("DermaSmart.API.Models.SkinProfile", b =>
@@ -116,7 +170,7 @@ namespace DermaSmart.API.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("SkinProfiles");
+                    b.ToTable("SkinProfiles", (string)null);
                 });
 
             modelBuilder.Entity("DermaSmart.API.Models.User", b =>
@@ -138,7 +192,18 @@ namespace DermaSmart.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("DermaSmart.API.Models.AppSkinProfile", b =>
+                {
+                    b.HasOne("DermaSmart.API.Models.AppUser", "User")
+                        .WithOne("SkinProfile")
+                        .HasForeignKey("DermaSmart.API.Models.AppSkinProfile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DermaSmart.API.Models.RoutineStep", b =>
@@ -161,6 +226,11 @@ namespace DermaSmart.API.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DermaSmart.API.Models.AppUser", b =>
+                {
+                    b.Navigation("SkinProfile");
                 });
 
             modelBuilder.Entity("DermaSmart.API.Models.User", b =>

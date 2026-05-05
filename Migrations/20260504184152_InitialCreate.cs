@@ -6,13 +6,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DermaSmart.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialWithExistingDb : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Ingredients",
+                name: "AppUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ingredients",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -23,11 +38,11 @@ namespace DermaSmart.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ingredients", x => x.Id);
+                    table.PrimaryKey("PK_ingredients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -39,7 +54,7 @@ namespace DermaSmart.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,6 +73,29 @@ namespace DermaSmart.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppSkinProfiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SkinType = table.Column<string>(type: "TEXT", nullable: false),
+                    Concerns = table.Column<string>(type: "TEXT", nullable: false),
+                    AgeRange = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppSkinProfiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppSkinProfiles_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoutineSteps",
                 columns: table => new
                 {
@@ -71,9 +109,9 @@ namespace DermaSmart.API.Migrations
                 {
                     table.PrimaryKey("PK_RoutineSteps", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoutineSteps_Products_ProductId",
+                        name: "FK_RoutineSteps_products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Products",
+                        principalTable: "products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -101,6 +139,12 @@ namespace DermaSmart.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AppSkinProfiles_UserId",
+                table: "AppSkinProfiles",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoutineSteps_ProductId",
                 table: "RoutineSteps",
                 column: "ProductId");
@@ -116,7 +160,10 @@ namespace DermaSmart.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Ingredients");
+                name: "AppSkinProfiles");
+
+            migrationBuilder.DropTable(
+                name: "ingredients");
 
             migrationBuilder.DropTable(
                 name: "RoutineSteps");
@@ -125,7 +172,10 @@ namespace DermaSmart.API.Migrations
                 name: "SkinProfiles");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "AppUsers");
+
+            migrationBuilder.DropTable(
+                name: "products");
 
             migrationBuilder.DropTable(
                 name: "Users");
