@@ -1,0 +1,6 @@
+@DermaSmart.API_HostAddress = http://localhost:5030
+
+GET {{DermaSmart.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
