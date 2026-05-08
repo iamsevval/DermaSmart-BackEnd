@@ -25,7 +25,32 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+
+            var errorCode = "VALIDATION_ERROR";
+
+            if (errors.Any(e => e.Contains("email", StringComparison.OrdinalIgnoreCase)))
+                errorCode = "INVALID_EMAIL_FORMAT";
+            else if (errors.Any(e => e.Contains("şifre", StringComparison.OrdinalIgnoreCase)))
+                errorCode = "INVALID_PASSWORD";
+
+            return new Microsoft.AspNetCore.Mvc.BadRequestObjectResult(new
+            {
+                success = false,
+                errorCode = errorCode,
+                message = errors.FirstOrDefault(),
+                statusCode = 400
+            });
+        };
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

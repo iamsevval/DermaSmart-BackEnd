@@ -27,8 +27,37 @@ namespace DermaSmart.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                var errorCode = "VALIDATION_ERROR";
+
+                if (errors.Any(e => e.Contains("email", StringComparison.OrdinalIgnoreCase)))
+                    errorCode = "INVALID_EMAIL_FORMAT";
+                else if (errors.Any(e => e.Contains("şifre", StringComparison.OrdinalIgnoreCase)))
+                    errorCode = "INVALID_PASSWORD";
+
+                return BadRequest(new
+                {
+                    success = false,
+                    errorCode = errorCode,
+                    message = errors.FirstOrDefault(),
+                  statusCode = 400
+                });
+            }
+
             if (await _context.AppUsers.AnyAsync(u => u.Email == dto.Email))
-                return BadRequest(new { message = "Bu email zaten kayıtlı." });
+                return BadRequest(new
+                {
+                    success = false,
+                    errorCode = "EMAIL_ALREADY_EXISTS",
+                    message = "Bu email zaten kayıtlı.",
+                    statusCode = 400
+                });
 
             var user = new AppUser
             {
@@ -39,7 +68,12 @@ namespace DermaSmart.API.Controllers
             _context.AppUsers.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Kayıt başarılı.", userId = user.Id });
+            return Ok(new
+            {
+                success = true,
+                message = "Kayıt başarılı.",
+                userId = user.Id
+            });
         }
 
         // POST: api/auth/login
