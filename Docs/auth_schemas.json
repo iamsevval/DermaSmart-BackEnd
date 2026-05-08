@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DermaSmart Auth API Schemas",
+  "description": "Mobil istemci için Auth endpoint request/response şemaları",
+
+  "definitions": {
+
+    "RegisterRequest": {
+      "type": "object",
+      "title": "Register Request",
+      "description": "POST /api/auth/register",
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "description": "Geçerli bir email adresi olmalıdır.",
+          "example": "user@example.com"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 6,
+          "description": "En az 6 karakter olmalıdır.",
+          "example": "MyPass123"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "RegisterSuccess": {
+      "type": "object",
+      "title": "Register Success Response (200)",
+      "properties": {
+        "success": { "type": "boolean", "example": true },
+        "message": { "type": "string", "example": "Kayıt başarılı." },
+        "userId": { "type": "integer", "example": 1 }
+      }
+    },
+
+    "LoginRequest": {
+      "type": "object",
+      "title": "Login Request",
+      "description": "POST /api/auth/login",
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Kayıtlı email adresi.",
+          "example": "user@example.com"
+        },
+        "password": {
+          "type": "string",
+          "description": "Kullanıcı şifresi.",
+          "example": "MyPass123"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "LoginSuccess": {
+      "type": "object",
+      "title": "Login Success Response (200)",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "JWT Bearer token. Header'a eklenmelidir: Authorization: Bearer <token>",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        },
+        "userId": { "type": "integer", "example": 1 }
+      }
+    },
+
+    "ErrorResponse": {
+      "type": "object",
+      "title": "Standart Hata Response (400 / 401)",
+      "description": "Tüm auth hataları bu formatta döner.",
+      "properties": {
+        "success": { "type": "boolean", "example": false },
+        "errorCode": {
+          "type": "string",
+          "description": "Mobil tarafın işleyeceği makine okunabilir hata kodu.",
+          "enum": [
+            "INVALID_EMAIL_FORMAT",
+            "INVALID_PASSWORD",
+            "VALIDATION_ERROR",
+            "EMAIL_ALREADY_EXISTS"
+          ],
+          "example": "INVALID_EMAIL_FORMAT"
+        },
+        "message": {
+          "type": "string",
+          "description": "Kullanıcıya gösterilecek Türkçe hata mesajı.",
+          "example": "Geçerli bir email adresi giriniz."
+        },
+        "statusCode": { "type": "integer", "example": 400 }
+      }
+    }
+
+  },
+
+  "errorCodes": {
+    "INVALID_EMAIL_FORMAT": {
+      "httpStatus": 400,
+      "message": "Geçerli bir email adresi giriniz.",
+      "trigger": "Email alanı RFC 5322 formatına uymuyorsa"
+    },
+    "INVALID_PASSWORD": {
+      "httpStatus": 400,
+      "message": "Şifre en az 6 karakter olmalıdır.",
+      "trigger": "Password alanı boş veya 6 karakterden kısaysa"
+    },
+    "VALIDATION_ERROR": {
+      "httpStatus": 400,
+      "message": "Geçersiz istek.",
+      "trigger": "Genel validasyon hatası"
+    },
+    "EMAIL_ALREADY_EXISTS": {
+      "httpStatus": 400,
+      "message": "Bu email zaten kayıtlı.",
+      "trigger": "Kayıtlı bir email ile tekrar register denenirse"
+    }
+  }
+}
