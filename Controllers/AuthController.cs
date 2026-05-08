@@ -50,7 +50,7 @@ namespace DermaSmart.API.Controllers
                 });
             }
 
-            if (await _context.AppUsers.AnyAsync(u => u.Email == dto.Email))
+            if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
                 return BadRequest(new
                 {
                     success = false,
@@ -59,13 +59,13 @@ namespace DermaSmart.API.Controllers
                     statusCode = 400
                 });
 
-            var user = new AppUser
+            var user = new User
             {
                 Email = dto.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
             };
 
-            _context.AppUsers.Add(user);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return Ok(new
@@ -80,7 +80,7 @@ namespace DermaSmart.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Email == dto.Email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return Unauthorized(new { message = "Email veya şifre hatalı." });
@@ -90,7 +90,7 @@ namespace DermaSmart.API.Controllers
             return Ok(new { token, userId = user.Id });
         }
 
-        private string GenerateJwtToken(AppUser user)
+        private string GenerateJwtToken(User user)
         {
             var claims = new[]
             {

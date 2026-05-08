@@ -30,11 +30,11 @@ namespace DermaSmart.API.Controllers
 
             var userId = int.Parse(userIdClaim.Value);
 
-            var existing = await _context.AppSkinProfiles.FirstOrDefaultAsync(s => s.UserId == userId);
+            var existing = await _context.SkinProfiles.FirstOrDefaultAsync(s => s.UserId == userId);
             if (existing != null)
                 return BadRequest(new { message = "Bu kullanıcı için zaten bir profil mevcut." });
 
-            var profile = new AppSkinProfile
+            var profile = new SkinProfile
             {
                 UserId = userId,
                 SkinType = dto.SkinType,
@@ -42,7 +42,7 @@ namespace DermaSmart.API.Controllers
                 AgeRange = dto.AgeRange
             };
 
-            _context.AppSkinProfiles.Add(profile);
+            _context.SkinProfiles.Add(profile);
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Cilt profili oluşturuldu.", profileId = profile.Id });
@@ -52,7 +52,7 @@ namespace DermaSmart.API.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetSkinProfile(int userId)
         {
-            var profile = await _context.AppSkinProfiles
+            var profile = await _context.SkinProfiles
                 .FirstOrDefaultAsync(s => s.UserId == userId);
 
             if (profile == null)
