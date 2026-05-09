@@ -1,4 +1,5 @@
 using DermaSmart.API.Data;
+using DermaSmart.API.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<CelestiaService>();
+builder.Services.AddScoped<ConflictService>();
+builder.Services.AddScoped<MorningRoutineService>();
+builder.Services.AddScoped<EveningRoutineService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -87,10 +93,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
 app.UseExceptionHandler(appError =>
 {
     appError.Run(async context =>
@@ -104,4 +106,9 @@ app.UseExceptionHandler(appError =>
         }
     });
 });
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 app.Run();
