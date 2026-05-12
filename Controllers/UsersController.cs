@@ -3,10 +3,13 @@ using DermaSmart.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace DermaSmart.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -27,6 +30,12 @@ namespace DermaSmart.API.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser(User user)
         {
+            // Eğer test için POST atılıyorsa şifrenin hashli kaydedildiğinden emin olalım
+            if (!string.IsNullOrEmpty(user.PasswordHash))
+            {
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+            }
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

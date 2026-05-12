@@ -41,7 +41,7 @@ namespace DermaSmart.API.Controllers
         public IActionResult GetMorningRoutine([FromBody] MorningRoutineRequestDto request)
         {
             if (request == null || string.IsNullOrWhiteSpace(request.SkinType))
-                return BadRequest("SkinType boş olamaz");
+                return BadRequest(new { message = "SkinType boş olamaz" });
 
             var result = _morningRoutineService.GetMorningRoutine(
                 request.SkinType,
@@ -58,7 +58,7 @@ namespace DermaSmart.API.Controllers
         public IActionResult GetEveningRoutine([FromBody] MorningRoutineRequestDto request)
         {
             if (request == null || string.IsNullOrWhiteSpace(request.SkinType))
-                return BadRequest("SkinType boş olamaz");
+                return BadRequest(new { message = "SkinType boş olamaz" });
 
             var result = _eveningRoutineService.GetEveningRoutine(
                 request.SkinType,
@@ -75,7 +75,7 @@ namespace DermaSmart.API.Controllers
         public IActionResult CheckConflicts([FromBody] ConflictRequestDto request)
         {
     if (request?.Ingredients == null || request.Ingredients.Count == 0)
-        return BadRequest("Ingredients bos olamaz");
+        return BadRequest(new { message = "Ingredients boş olamaz" });
 
     var conflicts = _conflictService.GetConflicts(request.Ingredients);
 
@@ -91,7 +91,7 @@ namespace DermaSmart.API.Controllers
         public IActionResult MatchSymptoms([FromBody] SymptomRequestDto request)
         {
             if (request?.Symptoms == null || request.Symptoms.Count == 0)
-                return BadRequest("Symptoms boş olamaz");
+                return BadRequest(new { message = "Symptoms boş olamaz" });
 
             var ingredients = _celestiaService.GetIngredientsForSymptoms(request.Symptoms);
 
