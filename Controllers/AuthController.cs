@@ -46,7 +46,7 @@ namespace DermaSmart.API.Controllers
                     success = false,
                     errorCode = errorCode,
                     message = errors.FirstOrDefault(),
-                  statusCode = 400
+                    statusCode = 400
                 });
             }
 
@@ -62,6 +62,7 @@ namespace DermaSmart.API.Controllers
             var user = new User
             {
                 Email = dto.Email,
+                FullName = dto.FullName,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
             };
 
@@ -72,7 +73,9 @@ namespace DermaSmart.API.Controllers
             {
                 success = true,
                 message = "Kayıt başarılı.",
-                userId = user.Id
+                userId = user.Id,
+                fullName = user.FullName, // ← Buraya da ekliyoruz ki kayıt anında ismi görebilelim
+                skinType = user.SkinProfile?.SkinType
             });
         }
 
@@ -87,7 +90,7 @@ namespace DermaSmart.API.Controllers
 
             var token = GenerateJwtToken(user);
 
-            return Ok(new { token, userId = user.Id });
+            return Ok(new { token, userId = user.Id, fullName = user.FullName }); // ← fullName EKLE
         }
 
         private string GenerateJwtToken(User user)
