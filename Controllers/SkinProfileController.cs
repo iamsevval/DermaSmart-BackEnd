@@ -34,8 +34,8 @@ namespace DermaSmart.API.Controllers
             }
 
             // REQUIRED FIELD TEST
-         if (!ModelState.IsValid)
-        return BadRequest(new { message = "Zorunlu alanlar eksik veya hatalı." });
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "Zorunlu alanlar eksik veya hatalı." });
 
 
             // CONCERNS REQUIRED TEST
@@ -43,25 +43,32 @@ namespace DermaSmart.API.Controllers
                 return BadRequest(new { message = "En az bir cilt endişesi (concern) girmek zorunludur." });
 
             // LONG INPUT TEST
-         if (dto.Concerns.Any(c => c.Length > 100))
-        return BadRequest(new { message = "Concern değeri çok uzun." });
+            if (dto.Concerns.Any(c => c.Length > 100))
+                return BadRequest(new { message = "Concern değeri çok uzun." });
 
             // VALID SKIN TYPE TEST
-        var validSkinTypes = new List<string> { "dry", "oily", "combination", "normal", "sensitive", "kuru", "yağlı", "yagli", "karma", "hassas" };
-    if (!validSkinTypes.Contains(dto.SkinType!.Trim().ToLower()))
-        return BadRequest(new { message = "Geçersiz skin type. Lütfen geçerli bir cilt tipi giriniz." });
+            var validSkinTypes = new List<string> {
+    "dry", "oily", "combination", "normal", "sensitive",
+    "kuru", "yağlı", "yagli", "karma", "hassas"
+};
+            if (!validSkinTypes.Contains(dto.SkinType!.Trim().ToLower()))
+                return BadRequest(new { message = "Geçersiz skin type." });
 
 
             // CONFLICT LOGIC TEST
-         var skinTypeParts = dto.SkinType.ToLower().Split(',').Select(s => s.Trim()).ToList();
-    if ((skinTypeParts.Contains("oily") || skinTypeParts.Contains("yağlı")) && (skinTypeParts.Contains("dry") || skinTypeParts.Contains("kuru")))
-        return BadRequest(new { message = "Birbiriyle çakışan cilt tipleri gönderilemez." });
+            var skinTypeParts = dto.SkinType.ToLower().Split(',').Select(s => s.Trim()).ToList();
+            if ((skinTypeParts.Contains("oily") || skinTypeParts.Contains("yağlı")) && (skinTypeParts.Contains("dry") || skinTypeParts.Contains("kuru")))
+                return BadRequest(new { message = "Birbiriyle çakışan cilt tipleri gönderilemez." });
 
             // VALID AGE RANGE TEST
-        var validAgeRanges = new List<string> { "18-24", "25-34", "35-44", "45 ve üzeri" };
-    if (string.IsNullOrEmpty(dto.AgeRange) || !validAgeRanges.Contains(dto.AgeRange))
-        return BadRequest(new { message = "Geçersiz yaş aralığı. Kabul edilen değerler: 18-24, 25-34, 35-44, 45 ve üzeri." });
-
+            var validAgeRanges = new List<string> {
+    "18-24", "18 - 24",
+    "25-34", "25 - 34",
+    "35-44", "35 - 44",
+    "45 ve üzeri"
+};
+            if (string.IsNullOrEmpty(dto.AgeRange) || !validAgeRanges.Contains(dto.AgeRange.Trim()))
+                return BadRequest(new { message = "Geçersiz yaş aralığı." });
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
             if (userIdClaim == null)
@@ -80,10 +87,12 @@ namespace DermaSmart.API.Controllers
 
             if (existing != null)
             {
-                return BadRequest(new
-                {
-                    message = "Bu kullanıcı için zaten bir profil mevcut."
-                });
+                // Yeni kayıt yerine güncelle (upsert)
+                existing.SkinType = dto.SkinType;
+                existing.Concerns = string.Join(",", dto.Concerns);
+                existing.AgeRange = dto.AgeRange!;
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Cilt profili güncellendi.", profileId = existing.Id });
             }
 
             var profile = new SkinProfile
