@@ -5,6 +5,10 @@ namespace DermaSmart.API.DTOs
 {
     public class RegisterDto
     {
+        [Required(AllowEmptyStrings = false, ErrorMessage = "İsim soyisim alanı zorunludur.")]
+        [MinLength(2, ErrorMessage = "İsim en az 2 karakter olmalıdır.")]
+        [RegularExpression(@"^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$", ErrorMessage = "İsim sadece harflerden ve boşluktan oluşabilir (Rakam veya özel karakter içeremez).")]
+        [DefaultValue("İsim Soyisim")]
         public string FullName { get; set; } = string.Empty; // ← EKLE
 
         [Required(ErrorMessage = "Email zorunludur.")]

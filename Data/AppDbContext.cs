@@ -12,6 +12,7 @@ namespace DermaSmart.API.Data
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<SkinProfile> SkinProfiles { get; set; }
         public DbSet<RoutineStep> RoutineSteps { get; set; }
+        public DbSet<TrackingLog> TrackingLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +22,7 @@ namespace DermaSmart.API.Data
             modelBuilder.Entity<Ingredient>().ToTable("ingredients");
             modelBuilder.Entity<SkinProfile>().ToTable("SkinProfiles");
             modelBuilder.Entity<RoutineStep>().ToTable("RoutineSteps");
+            modelBuilder.Entity<TrackingLog>().ToTable("TrackingLogs");
         }
     }
 }
