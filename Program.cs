@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DermaSmart.API.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,6 +88,84 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    if (!context.Products.Any())
+    {
+        context.Products.AddRange(
+            new Product
+            {
+                Name = "Gentle Cleanser",
+                Category = "cleanser",
+                SkinTypes = "dry,oily,combination,sensitive",
+                Ingredients = "hyaluronik asit"
+            },
+            new Product
+            {
+                Name = "Vitamin C Serum",
+                Category = "serum",
+                SkinTypes = "dry,oily,combination",
+                Ingredients = "vitamin c"
+            },
+            new Product
+            {
+                Name = "Niacinamide Serum",
+                Category = "serum",
+                SkinTypes = "oily,combination,sensitive",
+                Ingredients = "niasinamid"
+            },
+            new Product
+            {
+                Name = "BHA Treatment",
+                Category = "treatment",
+                SkinTypes = "oily,combination",
+                Ingredients = "bha"
+            },
+            new Product
+            {
+                Name = "Retinol Serum",
+                Category = "serum",
+                SkinTypes = "oily,combination",
+                Ingredients = "retinol"
+            },
+            new Product
+            {
+                Name = "AHA Exfoliant",
+                Category = "exfoliant",
+                SkinTypes = "dry,combination",
+                Ingredients = "aha"
+            },
+            new Product
+            {
+                Name = "Barrier Moisturizer",
+                Category = "moisturizer",
+                SkinTypes = "dry,sensitive,combination,oily",
+                Ingredients = "seramid"
+            },
+            new Product
+            {
+                Name = "Night Cream",
+                Category = "night cream",
+                SkinTypes = "dry,sensitive,combination,oily",
+                Ingredients = "seramid"
+            },
+            new Product
+            {
+                Name = "Daily Sunscreen SPF",
+                Category = "sunscreen",
+                SkinTypes = "dry,oily,combination,sensitive",
+                Ingredients = "spf"
+            }
+        );
+    }
+
+
+    context.SaveChanges();
+}
+
 
 if (app.Environment.IsDevelopment())
 {
