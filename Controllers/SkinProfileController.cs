@@ -68,7 +68,7 @@ namespace DermaSmart.API.Controllers
     "45 ve üzeri"
 };
             if (string.IsNullOrEmpty(dto.AgeRange) || !validAgeRanges.Contains(dto.AgeRange.Trim()))
-                return BadRequest(new { message = "Geçersiz yaş aralığı." });
+                return BadRequest(new { message = "Geçersiz yaş aralığı. (Geçerli aralıklar: 18-24, 25-34, 35-44, 45 ve üzeri)" });
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
             if (userIdClaim == null)
