@@ -184,9 +184,19 @@ namespace DermaSmart.API.Controllers
         public IActionResult MatchSymptoms([FromBody] SymptomRequestDto request)
         {
             if (request?.Symptoms == null || request.Symptoms.Count == 0)
-                return BadRequest(new { message = "Symptoms boş olamaz" });
+                return BadRequest(new { message = "Symptoms bos olamaz" });
 
-            var ingredients = _celestiaService.GetIngredientsForSymptoms(request.Symptoms);
+            if (request.Symptoms.Any(string.IsNullOrWhiteSpace))
+                return BadRequest(new { message = "Symptoms bos veya anlamsiz deger iceremez" });
+
+            var cleanedSymptoms = request.Symptoms
+                .Select(s => s.Trim())
+                .ToList();
+
+            var ingredients = _celestiaService.GetIngredientsForSymptoms(cleanedSymptoms);
+
+            if (ingredients.Count == 0)
+                return BadRequest(new { message = "Gecersiz symptom degeri. Eslesen icerik bulunamadi." });
 
             return Ok(new
             {
