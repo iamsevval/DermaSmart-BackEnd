@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Gentle Cleanser",
+    "category": "cleanser",
+    "skinTypes": "dry,oily,combination,sensitive",
+    "ingredients": "hyaluronik asit"
+  },
+  {
+    "name": "Vitamin C Serum",
+    "category": "serum",
+    "skinTypes": "dry,oily,combination",
+    "ingredients": "vitamin c"
+  },
+  {
+    "name": "Niacinamide Serum",
+    "category": "serum",
+    "skinTypes": "oily,combination,sensitive",
+    "ingredients": "niasinamid"
+  },
+  {
+    "name": "BHA Treatment",
+    "category": "treatment",
+    "skinTypes": "oily,combination",
+    "ingredients": "bha"
+  },
+  {
+    "name": "Retinol Serum",
+    "category": "serum",
+    "skinTypes": "oily,combination",
+    "ingredients": "retinol"
+  },
+  {
+    "name": "AHA Exfoliant",
+    "category": "exfoliant",
+    "skinTypes": "dry,combination",
+    "ingredients": "aha"
+  },
+  {
+    "name": "Barrier Moisturizer",
+    "category": "moisturizer",
+    "skinTypes": "dry,sensitive,combination,oily",
+    "ingredients": "seramid"
+  },
+  {
+    "name": "Night Cream",
+    "category": "night cream",
+    "skinTypes": "dry,sensitive,combination,oily",
+    "ingredients": "seramid"
+  },
+  {
+    "name": "Daily Sunscreen SPF",
+    "category": "sunscreen",
+    "skinTypes": "dry,oily,combination,sensitive",
+    "ingredients": "spf"
+  }
+]

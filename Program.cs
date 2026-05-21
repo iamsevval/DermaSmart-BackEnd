@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json;
 using DermaSmart.API.Models;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,7 +59,9 @@ builder.Services.AddControllers()
             });
         };
     });
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -71,6 +73,7 @@ builder.Services.AddSwaggerGen(c =>
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
         Description = "JWT Token'ınızı buraya yapıştırın. Örn: eyJhbGciOiJIUzI1NiIs..."
     });
+
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
         {
@@ -95,77 +98,32 @@ using (var scope = app.Services.CreateScope())
 
     if (!context.Products.Any())
     {
-        context.Products.AddRange(
-            new Product
-            {
-                Name = "Gentle Cleanser",
-                Category = "cleanser",
-                SkinTypes = "dry,oily,combination,sensitive",
-                Ingredients = "hyaluronik asit"
-            },
-            new Product
-            {
-                Name = "Vitamin C Serum",
-                Category = "serum",
-                SkinTypes = "dry,oily,combination",
-                Ingredients = "vitamin c"
-            },
-            new Product
-            {
-                Name = "Niacinamide Serum",
-                Category = "serum",
-                SkinTypes = "oily,combination,sensitive",
-                Ingredients = "niasinamid"
-            },
-            new Product
-            {
-                Name = "BHA Treatment",
-                Category = "treatment",
-                SkinTypes = "oily,combination",
-                Ingredients = "bha"
-            },
-            new Product
-            {
-                Name = "Retinol Serum",
-                Category = "serum",
-                SkinTypes = "oily,combination",
-                Ingredients = "retinol"
-            },
-            new Product
-            {
-                Name = "AHA Exfoliant",
-                Category = "exfoliant",
-                SkinTypes = "dry,combination",
-                Ingredients = "aha"
-            },
-            new Product
-            {
-                Name = "Barrier Moisturizer",
-                Category = "moisturizer",
-                SkinTypes = "dry,sensitive,combination,oily",
-                Ingredients = "seramid"
-            },
-            new Product
-            {
-                Name = "Night Cream",
-                Category = "night cream",
-                SkinTypes = "dry,sensitive,combination,oily",
-                Ingredients = "seramid"
-            },
-            new Product
-            {
-                Name = "Daily Sunscreen SPF",
-                Category = "sunscreen",
-                SkinTypes = "dry,oily,combination,sensitive",
-                Ingredients = "spf"
-            }
+        var datasetPath = Path.Combine(
+            app.Environment.ContentRootPath,
+            "Data",
+            "skincare_products_seed.json"
         );
+
+        if (File.Exists(datasetPath))
+        {
+            var json = File.ReadAllText(datasetPath);
+
+            var products = JsonSerializer.Deserialize<List<Product>>(
+                json,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }
+            );
+
+            if (products != null && products.Count > 0)
+            {
+                context.Products.AddRange(products);
+                context.SaveChanges();
+            }
+        }
     }
-
-
-    context.SaveChanges();
 }
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -179,7 +137,9 @@ app.UseExceptionHandler(appError =>
     {
         context.Response.StatusCode = 500;
         context.Response.ContentType = "application/json";
+
         var error = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+
         if (error != null)
         {
             await context.Response.WriteAsync($"{{\"error\": \"{error.Error.Message}\"}}");
