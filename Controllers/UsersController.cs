@@ -2,8 +2,11 @@ using DermaSmart.API.Data;
 using DermaSmart.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DermaSmart.API.Controllers
 {
@@ -23,7 +26,37 @@ namespace DermaSmart.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var authenticatedUserIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (authenticatedUserIdStr == null)
+            {
+                return Unauthorized(new { message = "Yetkisiz erişim." });
+            }
+
+            var userId = int.Parse(authenticatedUserIdStr);
+            // Return only the current user for safety, preventing PII leak of other users
+            return await _context.Users
+                .Where(u => u.Id == userId)
+                .ToListAsync();
+        }
+
+        // GET: api/Users/me
+        [HttpGet("me")]
+        public async Task<ActionResult<User>> GetCurrentUser()
+        {
+            var authenticatedUserIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (authenticatedUserIdStr == null)
+            {
+                return Unauthorized(new { message = "Yetkisiz erişim." });
+            }
+
+            var userId = int.Parse(authenticatedUserIdStr);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound(new { message = "Kullanıcı bulunamadı." });
+            }
+
+            return Ok(user);
         }
 
         // POST: api/Users
