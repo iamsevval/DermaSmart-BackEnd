@@ -30,6 +30,12 @@ namespace DermaSmart.API.Controllers
                 return BadRequest(new { message = "Invalid request." });
             }
 
+            var authenticatedUserIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (authenticatedUserIdStr == null || int.Parse(authenticatedUserIdStr) != request.UserId)
+            {
+                return Unauthorized(new { message = "Bu işlemi yapmaya yetkiniz yok." });
+            }
+
             var dateOnly = request.Date.Date;
 
             // Kullanıcı var mı kontrolü
@@ -68,6 +74,12 @@ namespace DermaSmart.API.Controllers
         [HttpGet("{userId}/history")]
         public async Task<IActionResult> GetHistory(int userId)
         {
+            var authenticatedUserIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (authenticatedUserIdStr == null || int.Parse(authenticatedUserIdStr) != userId)
+            {
+                return Unauthorized(new { message = "Bu işlemi yapmaya yetkiniz yok." });
+            }
+
             // Kullanıcı var mı kontrolü
             var userExists = await _context.Users.AnyAsync(u => u.Id == userId);
             if (!userExists)

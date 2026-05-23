@@ -4,11 +4,13 @@ using DermaSmart.API.Models;
 using DermaSmart.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DermaSmart.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class RoutineController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -33,6 +35,12 @@ namespace DermaSmart.API.Controllers
         {
             if (request == null || request.UserId <= 0)
                 return BadRequest(new { message = "Gecerli bir userId gonderilmelidir." });
+
+            var authenticatedUserIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (authenticatedUserIdStr == null || int.Parse(authenticatedUserIdStr) != request.UserId)
+            {
+                return Unauthorized(new { message = "Bu işlemi yapmaya yetkiniz yok." });
+            }
 
             var skinProfile = await _context.SkinProfiles
                 .FirstOrDefaultAsync(s => s.UserId == request.UserId);
@@ -85,6 +93,12 @@ namespace DermaSmart.API.Controllers
         {
             if (userId <= 0)
                 return BadRequest(new { message = "Gecerli bir userId gonderilmelidir." });
+
+            var authenticatedUserIdStr = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (authenticatedUserIdStr == null || int.Parse(authenticatedUserIdStr) != userId)
+            {
+                return Unauthorized(new { message = "Bu işlemi yapmaya yetkiniz yok." });
+            }
 
             var skinProfile = await _context.SkinProfiles
                 .FirstOrDefaultAsync(s => s.UserId == userId);
