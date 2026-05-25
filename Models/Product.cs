@@ -11,5 +11,13 @@ namespace DermaSmart.API.Models
         
         // Ürünün barındırdığı ana içerikler
         public string Ingredients { get; set; } = string.Empty;
+
+        public decimal Price { get; set; }
+        public string ActiveIngredients { get; set; } = string.Empty;
+        public string UsagePurpose { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
+        
+        // Ürünün satın alma veya detay linki
+        public string ProductUrl { get; set; } = string.Empty;
     }
 }

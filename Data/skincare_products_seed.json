@@ -3,54 +3,99 @@
     "name": "Gentle Cleanser",
     "category": "cleanser",
     "skinTypes": "dry,oily,combination,sensitive",
-    "ingredients": "hyaluronik asit"
+    "ingredients": "hyaluronik asit",
+    "price": 189.90,
+    "activeIngredients": "Hyaluronik Asit, Aloe Vera, Panthenol",
+    "usagePurpose": "Cildi kurutmadan derinlemesine temizler, nem bariyerini korur.",
+    "imageUrl": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop",
+    "productUrl": "https://www.sephora.com.tr/p/hyaluronic-acid-cleanser-P10025109.html"
   },
   {
     "name": "Vitamin C Serum",
     "category": "serum",
     "skinTypes": "dry,oily,combination",
-    "ingredients": "vitamin c"
+    "ingredients": "vitamin c",
+    "price": 349.90,
+    "activeIngredients": "Vitamin C, Ferülik Asit, Vitamin E",
+    "usagePurpose": "Cilt tonunu eşitler, lekeleri azaltır ve antioksidan koruma sağlar.",
+    "imageUrl": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=400&fit=crop",
+    "productUrl": "https://www.sephora.com.tr/p/vitamin-c-e-super-glow-serum---c-vitaminli-yuz-serumu-P10047983.html"
   },
   {
     "name": "Niacinamide Serum",
     "category": "serum",
     "skinTypes": "oily,combination,sensitive",
-    "ingredients": "niasinamid"
+    "ingredients": "niasinamid",
+    "price": 279.90,
+    "activeIngredients": "Niasinamid %10, Çinko PCA",
+    "usagePurpose": "Gözenekleri sıkılaştırır, sebum üretimini dengeler ve cilt bariyerini güçlendirir.",
+    "imageUrl": "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&h=400&fit=crop",
+    "productUrl": "https://www.sephora.com.tr/p/niasinamid-%2510-cinko-%251---kusursuzluk-giderici-serum-P3921091.html"
   },
   {
     "name": "BHA Treatment",
     "category": "treatment",
     "skinTypes": "oily,combination",
-    "ingredients": "bha"
+    "ingredients": "bha",
+    "price": 259.90,
+    "activeIngredients": "Salisilik Asit %2, Yeşil Çay Ekstresi",
+    "usagePurpose": "Gözenekleri temizler, sivilce ve siyah noktalara karşı etkili bakım sağlar.",
+    "imageUrl": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&h=400&fit=crop",
+    "productUrl": "https://www.sephora.com.tr/p/bha-%252-concentrate-P10024876.html"
   },
   {
     "name": "Retinol Serum",
     "category": "serum",
     "skinTypes": "oily,combination",
-    "ingredients": "retinol"
+    "ingredients": "retinol",
+    "price": 399.90,
+    "activeIngredients": "Retinol %0.5, Squalane, Vitamin E",
+    "usagePurpose": "Hücre yenilenmesini hızlandırır, ince çizgi ve kırışıklıkları azaltır.",
+    "imageUrl": "https://theordinary.com/dw/image/v2/BFKJ_PRD/on/demandware.static/-/Sites-deciem-master/default/dw30e9d48b/Images/products/The%20Ordinary/rdn-retinol-0-2pct-in-squalane-30ml.png?sw=1200&sh=1200&sm=fit",
+    "productUrl": "https://www.sephora.com.tr/p/retinol-P3529019.html"
   },
   {
     "name": "AHA Exfoliant",
     "category": "exfoliant",
     "skinTypes": "dry,combination",
-    "ingredients": "aha"
+    "ingredients": "aha",
+    "price": 229.90,
+    "activeIngredients": "Glikolik Asit %8, Laktik Asit",
+    "usagePurpose": "Ölü hücreleri nazikçe arındırır, cilde parlaklık ve pürüzsüzlük kazandırır.",
+    "imageUrl": "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=400&h=400&fit=crop",
+    "productUrl": "https://www.sephora.com.tr/p/exfoliate---%255-ni%CC%87asi%CC%87nami%CC%87d-lakti%CC%87k-asi%CC%87t-i%CC%87ceren-esi%CC%87tleyi%CC%87ci%CC%87-serum-P1000211634.html"
   },
   {
     "name": "Barrier Moisturizer",
     "category": "moisturizer",
     "skinTypes": "dry,sensitive,combination,oily",
-    "ingredients": "seramid"
+    "ingredients": "seramid",
+    "price": 319.90,
+    "activeIngredients": "Seramid NP, Kolesterol, Yağ Asitleri",
+    "usagePurpose": "Cilt bariyerini onarır, yoğun nem sağlar ve tahriş olmuş cildi yatıştırır.",
+    "imageUrl": "https://images.unsplash.com/photo-1601049676869-702ea24cfd58?w=400&h=400&fit=crop",
+    "productUrl": "https://www.sephora.com.tr/p/bio-active-ceramide-repairing-and-plumping-moisturizer-P3842090.html"
   },
   {
     "name": "Night Cream",
     "category": "night cream",
     "skinTypes": "dry,sensitive,combination,oily",
-    "ingredients": "seramid"
+    "ingredients": "seramid",
+    "price": 359.90,
+    "activeIngredients": "Seramid, Peptit Kompleks, Shea Yağı",
+    "usagePurpose": "Gece boyunca cildi besler, onarır ve yaşlanma karşıtı bakım sağlar.",
+    "imageUrl": "https://www.cerave.com/-/media/project/loreal/brand-sites/cerave/americas/us/skincare/2025/skin-renewing-night-cream/700x785/skin-renewing-night-cream-packshot-front-700x785-v1.jpg?rev=e26e5d7b923b47ac98ddd5c1baf07a54&w=900&hash=062FCDFB2DAD099EDB3B8E23214DDE3B",
+    "productUrl": "https://www.sephora.com.tr/p/yenileyici-sikilastirici-gece-yagi---yeniler-sikiligi-artirir-P10061365.html"
   },
   {
     "name": "Daily Sunscreen SPF",
     "category": "sunscreen",
     "skinTypes": "dry,oily,combination,sensitive",
-    "ingredients": "spf"
+    "ingredients": "spf",
+    "price": 289.90,
+    "activeIngredients": "SPF 50+, Niasinamid, Hyaluronik Asit",
+    "usagePurpose": "UVA/UVB ışınlarına karşı geniş spektrumlu koruma sağlar, cildi nemlendirirken beyaz iz bırakmaz.",
+    "imageUrl": "https://www.cerave.com/-/media/project/loreal/brand-sites/cerave/americas/us/skincare/moisturizers/am-facial-moisturizing-lotion-with-sunscreen/am-30-facial-moisturizer_front.jpg?rev=675a526e833f404e8ab1a167f77c7b58&w=900&hash=D20AD679891C2D1AD2A24B2A15C7F7D6",
+    "productUrl": "https://www.sephora.com.tr/p/gunese-karsi-koruyucu-yuz-kremi-spf50----gunes%C2%A0koruyucu-P10057607.html"
   }
 ]
