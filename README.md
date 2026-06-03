@@ -1,6 +1,6 @@
 # DermaSmart Backend API ⚙️
 
-DermaSmart cilt bakım uygulamasının sunucu tarafı altyapısıdır. Bu proje, .NET ortamında geliştirilmiş olup veritabanı yönetimi için Entity Framework Core ve SQLite kullanmaktadır.
+DermaSmart cilt bakım uygulamasının sunucu tarafı altyapısıdır. Bu proje, "Herkesin cebinde bir cilt uzmanı" vizyonuyla .NET ortamında geliştirilmiş olup, içerik çakışmalarını önleyen akıllı bir kural motoruna (rule-based engine) ev sahipliği yapmaktadır. Veritabanı yönetimi için Entity Framework Core ve SQLite kullanmaktadır.
 
 ---
 
@@ -87,7 +87,18 @@ API uç noktalarının (endpoints) detayları, giden ve dönen JSON veri yapıla
 
 ## Geliştirici Notları ve İyileştirmeler (Haftalık Scrum Özeti)
 * **Veritabanı ve Modellerin Birleştirilmesi (Güncel Değişiklik):** Merge işlemi sonrasında oluşan tablo karmaşasını gidermek adına, `AppUser` ve `AppSkinProfile` tabloları sistemden tamamen kaldırıldı. Proje baştan aşağıya standart `User` ve `SkinProfile` modellerine bağlandı. Bu sayede 500 hataları ve veritabanı uyuşmazlıkları giderildi.
+* **İçerik Çakışma Kural Motoru:** Niasinamid, glikolik asit, C vitamini gibi içerik çakışmalarını tespit eden backend algoritması API'ye entegre edildi.
 * **JWT Entegrasyonu:** Backend tarafında güvenli oturum yönetimi için JWT altyapısı kuruldu.
 * **Hata Kodları (Error Codes):** Mobil ekip (Geliştirici 4) ile uyumlu çalışmak adına, hata döndürülen tüm uç noktalara `errorCode` anahtarı eklenerek JSON şemaları standart hale getirildi. Mobil taraf artık string okumak yerine bu hata kodlarını (`EMAIL_ALREADY_EXISTS`, `INVALID_CREDENTIALS` vb.) baz alarak UI kontrolleri yapabilir.
 * **Form Entegrasyonu:** Cilt tipi kayıtları, güncellenen veritabanında ilişkisel olarak tutulup `/api/skinprofile` üzerinden başarılı ve eksiksiz bir şekilde servis edilmektedir.
 
+---
+
+## 👥 Geliştirici Ekip (Scrum Takımı)
+Bu proje, çevik yazılım (Agile) prensipleriyle 6 kişilik çapraz fonksiyonlu bir Scrum ekibi tarafından geliştirilmiştir:
+* **Hayrunnida Şahin** (Product Owner)
+* **Şevval Arslan** (Scrum Master)
+* **Zeynep Ekinci** (Backend Geliştirici)
+* **Senanur Turunç** (Backend Geliştirici)
+* **Senanur Kurşun** (FrontEnd Geliştirici)
+* **Ayşenur Küçükaslan** (Test / QA)
