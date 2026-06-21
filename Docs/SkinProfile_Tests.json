@@ -1,0 +1,121 @@
+{
+  "info": {
+    "_postman_id": "dermasmart-skinprofile-tests",
+    "name": "DermaSmart SkinProfile Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Normal Test",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"skinType\": \"Oily\", \"concerns\": [\"Acne\"], \"ageRange\": \"18-25\" }"
+        },
+        "url": {
+          "raw": "https://localhost:7036/api/SkinProfile",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7036",
+          "path": [
+            "api",
+            "SkinProfile"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Empty Body Test",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "https://localhost:7036/api/SkinProfile",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7036",
+          "path": [
+            "api",
+            "SkinProfile"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Missing Field Test",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"skinType\": \"Dry\" }"
+        },
+        "url": {
+          "raw": "https://localhost:7036/api/SkinProfile",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7036",
+          "path": [
+            "api",
+            "SkinProfile"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Null Value Test",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"skinType\": null, \"concerns\": null, \"ageRange\": null }"
+        },
+        "url": {
+          "raw": "https://localhost:7036/api/SkinProfile",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7036",
+          "path": [
+            "api",
+            "SkinProfile"
+          ]
+        }
+      }
+    }
+  ]
+}
