@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "Routine Generate QA Test",
+    "_postman_id": "routine-generate-qa-test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Generate Routine",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5030/api/Routine/generate",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5030",
+          "path": [
+            "api",
+            "Routine",
+            "generate"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const jsonData = pm.response.json();",
+              "",
+              "pm.test(\"Response exists\", function () {",
+              "    pm.expect(jsonData).to.exist;",
+              "});",
+              "",
+              "pm.test(\"Morning routine exists\", function () {",
+              "    pm.expect(jsonData.morningRoutine).to.exist;",
+              "});",
+              "",
+              "pm.test(\"Evening routine exists\", function () {",
+              "    pm.expect(jsonData.eveningRoutine).to.exist;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
