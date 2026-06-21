@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "Auth Tests - Positive & Negative",
+    "_postman_id": "67890-fghij",
+    "description": "Happy path and negative tests for auth endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register - Valid",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"validuser@gmail.com\",\n  \"password\": \"123456\",\n  \"name\": \"Ayse\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:5001/api/auth/register"
+        }
+      }
+    },
+    {
+      "name": "Login - Valid",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"validuser@gmail.com\",\n  \"password\": \"123456\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:5001/api/auth/login"
+        }
+      }
+    },
+    {
+      "name": "Login - Wrong Password",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"validuser@gmail.com\",\n  \"password\": \"wrongpass\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:5001/api/auth/login"
+        }
+      }
+    },
+    {
+      "name": "Register - Missing Password",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test2@gmail.com\",\n  \"name\": \"Ayse\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:5001/api/auth/register"
+        }
+      }
+    },
+    {
+      "name": "Register - Invalid Email Format",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"invalid-email\",\n  \"password\": \"123456\",\n  \"name\": \"Ayse\"\n}"
+        },
+        "url": {
+          "raw": "https://localhost:5001/api/auth/register"
+        }
+      }
+    }
+  ]
+}
