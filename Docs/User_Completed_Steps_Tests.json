@@ -1,0 +1,55 @@
+{
+  "info": {
+    "_postman_id": "user-completed-steps-tests",
+    "name": "User Completed Steps Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User Completed Steps Test",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:5030/api/Tracking/1/history",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "api",
+            "Tracking",
+            "1",
+            "history"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Step exists in history\", function () {",
+              "    const response = pm.response.json();",
+              "",
+              "    pm.expect(response).to.be.an(\"array\");",
+              "",
+              "    const exists = response.some(day =>",
+              "        day.completedSteps &&",
+              "        day.completedSteps.some(step => step.stepId === 1)",
+              "    );",
+              "",
+              "    pm.expect(exists).to.be.true;",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
