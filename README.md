@@ -8,7 +8,7 @@ DermaSmart cilt bakım uygulamasının sunucu tarafı altyapısıdır. Bu proje,
 
 - **Ana Çerçeve (Framework):** ASP.NET Core 8.0 (Web API)
 - **Programlama Dili:** C# (.NET 8)
-- **Mimari Yaklaşım:** Katmanlı Mimari (Controllers, Services, Data)
+- **Mimari Yaklaşım:** Katmanlı Mimari ve MVC Tasarım Deseni (Controllers, Services, Models, Data) 
 - **Veritabanı:** SQLite
 - **ORM:** Entity Framework Core
 - **Güvenlik & Kimlik Doğrulama:** JWT (JSON Web Token), BCrypt, Rate Limiting, CORS
