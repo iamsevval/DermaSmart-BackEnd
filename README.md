@@ -1,41 +1,41 @@
 # DermaSmart Backend API ⚙️
 
-DermaSmart cilt bakım uygulamasının sunucu tarafı altyapısıdır. Bu proje, "Herkesin cebinde bir cilt uzmanı" vizyonuyla .NET ortamında geliştirilmiş olup, içerik çakışmalarını önleyen akıllı bir kural motoruna (rule-based engine) ev sahipliği yapmaktadır. Veritabanı yönetimi için Entity Framework Core ve SQLite kullanmaktadır.
+This is the server-side infrastructure of the DermaSmart skincare application. Developed in the .NET environment with the vision of "A skin expert in everyone's pocket," this project hosts a smart rule engine (rule-based engine) that prevents ingredient conflicts. It uses Entity Framework Core and SQLite for database management.
 
 ---
 
-## 🚀 Backend (API) Teknolojileri
+## 🚀 Backend (API) Technologies
 
-- **Ana Çerçeve (Framework):** ASP.NET Core 8.0 (Web API)
-- **Programlama Dili:** C# (.NET 8)
-- **Mimari Yaklaşım:** Katmanlı Mimari ve MVC Tasarım Deseni (Controllers, Services, Models, Data) 
-- **Veritabanı:** SQLite
+- **Framework:** ASP.NET Core 8.0 (Web API)
+- **Programming Language:** C# (.NET 8)
+- **Architectural Approach:** Layered Architecture and MVC Design Pattern (Controllers, Services, Models, Data) 
+- **Database:** SQLite
 - **ORM:** Entity Framework Core
-- **Güvenlik & Kimlik Doğrulama:** JWT (JSON Web Token), BCrypt, Rate Limiting, CORS
-- **API Dokümantasyonu:** Swagger (OpenAPI)
-- **Veri İşleme (İş Mantığı):** Özel Cilt ve Semptom Analiz Servisleri
+- **Security & Authentication:** JWT (JSON Web Token), BCrypt, Rate Limiting, CORS
+- **API Documentation:** Swagger (OpenAPI)
+- **Data Processing (Business Logic):** Custom Skin and Symptom Analysis Services
 
 ---
 
-## 🛠️ Kurulum ve Çalıştırma Adımları
+## 🛠️ Installation and Running Steps
 
-Projeyi kendi bilgisayarınızda (lokalde) çalıştırmak için aşağıdaki adımları sırasıyla terminalinizde uygulayın.
+Follow the steps below in order in your terminal to run the project on your own computer (locally).
 
-### 1️⃣ Eksik Paketleri İndir (Restore)
+### 1️⃣ Restore Missing Packages
 
-API projesinin bağımlılıklarını indirmek için:
+To download the API project's dependencies:
 
 ```bash
 dotnet restore DermaSmart.API.csproj
 ```
 
-> Başarılı olduğunda terminalde `"Restore completed"` benzeri bir çıktı göreceksiniz.
+> When successful, you will see an output similar to `"Restore completed"` in the terminal.
 
 ---
 
-### 2️⃣ Veritabanını Güncelle
+### 2️⃣ Update the Database
 
-Veritabanı şemasını oluşturmak ve migration’ları uygulamak için:
+To create the database schema and apply the migrations:
 
 ```bash
 dotnet ef database update --project DermaSmart.API.csproj
@@ -43,9 +43,9 @@ dotnet ef database update --project DermaSmart.API.csproj
 
 ---
 
-### 3️⃣ Projeyi Çalıştır
+### 3️⃣ Run the Project
 
-Sunucuyu başlatmak için:
+To start the server:
 
 ```bash
 dotnet run --project DermaSmart.API.csproj
@@ -53,56 +53,54 @@ dotnet run --project DermaSmart.API.csproj
 
 ---
 
-## 📖 Swagger API Dokümantasyonu
+## 📖 Swagger API Documentation
 
-Proje başarıyla çalıştırıldıktan sonra API uç noktalarını (endpoints) test etmek ve incelemek için Swagger arayüzüne erişebilirsiniz.
+Once the project has been run successfully, you can access the Swagger interface to test and inspect the API endpoints.
 
-Tarayıcınızda aşağıdaki adresleri kullanın:
+Use the following addresses in your browser:
 
-### Lokal Geliştirme
+### Local Development
 
 ```txt
 http://localhost:<PORT>/swagger
 ```
 
-### Canlı (Production)
+### Production
 
 ```txt
-http://<yakında_eklenecek>/swagger
+http://<to_be_added_soon>/swagger
 ```
 
-Swagger arayüzü üzerinden:
+Through the Swagger interface, you can test all HTTP operations directly from the browser, such as:
 
 - GET
 - POST
 - PUT
 - DELETE
 
-gibi tüm HTTP işlemlerini doğrudan tarayıcı üzerinden test edebilirsiniz.
+## Documentation
 
-## Dokümantasyon
+The details of the API endpoints, along with the outgoing and incoming JSON data structures (schemas), have been modularly separated in the **`Docs`** folder to facilitate teamwork:
 
-API uç noktalarının (endpoints) detayları, giden ve dönen JSON veri yapıları (şemaları) takım çalışmasını kolaylaştırmak adına **`Docs`** klasöründe modüler olarak ayrıştırılmıştır:
-
-* 🔐 **[Kimlik Doğrulama (Auth) API Dokümantasyonu](./Docs/AUTH_API_DOCUMENTATION.md)**
-* 👤 **[Cilt Profili (Skin Profile) API Dokümantasyonu](./Docs/SKIN_PROFILE_API.md)**
+* 🔐 **[Authentication (Auth) API Documentation](./Docs/AUTH_API_DOCUMENTATION.md)**
+* 👤 **[Skin Profile API Documentation](./Docs/SKIN_PROFILE_API.md)**
 
 ---
 
-## Geliştirici Notları ve İyileştirmeler (Haftalık Scrum Özeti)
-* **Veritabanı ve Modellerin Birleştirilmesi (Güncel Değişiklik):** Merge işlemi sonrasında oluşan tablo karmaşasını gidermek adına, `AppUser` ve `AppSkinProfile` tabloları sistemden tamamen kaldırıldı. Proje baştan aşağıya standart `User` ve `SkinProfile` modellerine bağlandı. Bu sayede 500 hataları ve veritabanı uyuşmazlıkları giderildi.
-* **İçerik Çakışma Kural Motoru:** Niasinamid, glikolik asit, C vitamini gibi içerik çakışmalarını tespit eden backend algoritması API'ye entegre edildi.
-* **JWT Entegrasyonu:** Backend tarafında güvenli oturum yönetimi için JWT altyapısı kuruldu.
-* **Hata Kodları (Error Codes):** Mobil ekip (Geliştirici 4) ile uyumlu çalışmak adına, hata döndürülen tüm uç noktalara `errorCode` anahtarı eklenerek JSON şemaları standart hale getirildi. Mobil taraf artık string okumak yerine bu hata kodlarını (`EMAIL_ALREADY_EXISTS`, `INVALID_CREDENTIALS` vb.) baz alarak UI kontrolleri yapabilir.
-* **Form Entegrasyonu:** Cilt tipi kayıtları, güncellenen veritabanında ilişkisel olarak tutulup `/api/skinprofile` üzerinden başarılı ve eksiksiz bir şekilde servis edilmektedir.
+## Developer Notes and Improvements (Weekly Scrum Summary)
+* **Database and Model Consolidation (Recent Change):** To resolve the table confusion that arose after the merge, the `AppUser` and `AppSkinProfile` tables were completely removed from the system. The project was fully reconnected to the standard `User` and `SkinProfile` models from the ground up. This resolved the 500 errors and database inconsistencies.
+* **Ingredient Conflict Rule Engine:** The backend algorithm that detects ingredient conflicts such as niacinamide, glycolic acid, and vitamin C was integrated into the API.
+* **JWT Integration:** JWT infrastructure was set up on the backend side for secure session management.
+* **Error Codes:** To work in alignment with the mobile team (Developer 4), an `errorCode` key was added to all endpoints that return errors, standardizing the JSON schemas. The mobile side can now perform UI checks based on these error codes (`EMAIL_ALREADY_EXISTS`, `INVALID_CREDENTIALS`, etc.) instead of reading strings.
+* **Form Integration:** Skin type records are stored relationally in the updated database and are successfully and fully served via `/api/skinprofile`.
 
 ---
 
-## 👥 Geliştirici Ekip (Scrum Takımı)
-Bu proje, çevik yazılım (Agile) prensipleriyle 6 kişilik çapraz fonksiyonlu bir Scrum ekibi tarafından geliştirilmiştir:
+## 👥 Development Team (Scrum Team)
+This project was developed by a cross-functional Scrum team of 6 people following Agile software principles:
 * **Hayrunnida Şahin** (Product Owner)
 * **Şevval Arslan** (Scrum Master)
-* **Zeynep Ekinci** (Backend Geliştirici)
-* **Senanur Turunç** (Backend Geliştirici)
-* **Senanur Kurşun** (FrontEnd Geliştirici)
+* **Zeynep Ekinci** (Backend Developer)
+* **Senanur Turunç** (Backend Developer)
+* **Senanur Kurşun** (Frontend Developer)
 * **Ayşenur Küçükaslan** (Test / QA)
